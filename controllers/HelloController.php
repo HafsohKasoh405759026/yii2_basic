@@ -10,7 +10,7 @@ class HelloController extends \yii\web\Controller{
 		return $this->render('index',[
 				'firstname'=>'ฮาฟเสาะ',
 				'lastname'=>'กาเสาะ',
-				'wegth'=> $weigth
+				'weigth'=> $weigth
 
 			]
 		);

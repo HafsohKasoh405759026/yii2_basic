@@ -1,36 +1,51 @@
 <?php
+
+use yii\helpers\Html;
+use yii\grid\GridView;
+
+use app\models\ProductType;
+use yii\helpers\ArrayHelper;
+
+$productType = ProductType::find()->all();
+$productTypeList = ArrayHelper::map($productType,'id','title');
+
 /* @var $this yii\web\View */
+/* @var $searchModel app\models\ProductSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = 'Products';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>product/index</h1>
+<div class="product-index">
 
-</php 
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-?>
-<table class="table table-bordered">
-	<thead>
-		<tr>
-			<th>ไอดี</th>
-			<th>ชื่อสินค้า</th>
-			<th>ประเภท</th>
-			<th>ราคา</th>
-			<th>รายละเอียด</th>
-			<th>จำนวน</th>
-			<th>Action</th>
-		</tr>
-	</thead>
+    <p>
+        <?= Html::a('Create Product', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
 
+            'id',
+            'title',
+            'detail:ntext',
+            'price',
+            //'product_type_id',
+             [
+                'attribute' => 'product_type_id',
+                'filter' => $productTypeList,
+                'value' => function($model){
+                    return $model->productType->title;
+                }
+            ],
 
-<tbody>
-	<?php foreach()
-	?>
-</tbody>
+            // 'amount',
 
-
-
-
-
-
-
-
-</table>
-
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
+</div>
